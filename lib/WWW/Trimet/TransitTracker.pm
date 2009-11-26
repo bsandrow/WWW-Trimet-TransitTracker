@@ -11,7 +11,8 @@ $|++;
 
 =head1 NAME
 
-WWW::Trimet::TransitTracker - Webscraper for thr Transit Tracker page.
+WWW::Trimet::TransitTracker - Webscraper for the TriMet TransitTracker page.
+
 =cut
 =head1 VERSION
 
@@ -23,8 +24,8 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-A light-weight way to grab the next arrival times from TriMet.org's
-TransitTracker page.
+A light-weight way to grab the next arrival times from
+L<TriMet.org|http://www.trimet.org>'s TransitTracker page.
 
 Example usage:
 
@@ -43,7 +44,10 @@ Example usage:
     map { + print "$_->[0] @ $_->[1]\n"; } @{$tt->arrivals()};
 
 =cut
-=head1 PUBLIC FUNCTIONS
+=head1 MEMBERS
+
+Member functions.
+
 =cut
 
 =head2 new
@@ -52,18 +56,18 @@ Creates a new TransitTracker.
 
 Optional Arguments:
 
-=over 4
+=over 12
 
-=item stopid
+=item C<stopid>
 
 The Stop ID # that you want arrival times for.
 
-=item route
+=item C<route>
 
 The Route Number of the particular Route that you're interested in. (i.e. If
 you only care about arrivals of Bus #4 at this particular stop).
 
-=item ua
+=item C<ua>
 
 Provide your own LWP::UserAgent instance to use for all communication with
 trimet.org (e.g. define your own UserAgent string for your app or something).
@@ -93,6 +97,13 @@ sub new {
 }
 
 =head2 route_number
+
+Getter/setter for the 'route' variable. Optional for parsing.
+
+Returns the Route Number with no arguments. Sets the new Route Number B<and>
+returns it if a route number is passed in. If the argument passed in as
+non-numeric, croaks an error message.
+
 =cut
 sub route_number {
     my $self = shift;
@@ -106,6 +117,10 @@ sub route_number {
 
 Getter/setter for the Trimet Stop ID #. This is a required value to parsing a
 page, though it may be provided through the constructor as an argument.
+
+Returns the current Stop ID # with no arguments. Sets and returns the provided
+Stop ID # as the first argument. Croaks an error message when the new Stop ID #
+passed in is non-numeric.
 
 =cut
 sub stop_id {
@@ -165,16 +180,18 @@ sub parse {
 }
 
 
-=head1 PRIVATE FUNCTIONS
+=head1 PRIVATE MEMBERS
 
-I know that not everyone bother to separate out the private from the
-non-private functions, but I do.
+Private member functions. No need to really worry about these, but they are
+here for make the documentation complete.
 
 =cut
 
 =head2 __build_url
 
 An abstraction for producing the TransitTracker URL from the stored values.
+Returns the URL as a string. There are no known error conditions (so long as
+the sanity check is run first).
 
 =cut
 sub __build_url {
@@ -186,7 +203,8 @@ sub __build_url {
 
 =head2 __parse_sanity_check
 
-Performs the pre-parse sanity check.
+Performs the pre-parse sanity check. Returns undef if any non-sane conditions
+are found.
 
 =cut
 sub __parse_sanity_check {
@@ -199,12 +217,15 @@ sub __parse_sanity_check {
 
 =head1 AUTHOR
 
-Brandon Sandrowicz, C<< <brandon at sandrowicz.org> >>
+Brandon Sandrowicz, C<< <brandon@sandrowicz.org> >>
 
 =cut
 =head1 BUGS
 
-Please report any bugs through the L<Github interface|http://www.github.com/bsandrow/WWW-Trimet-TranitTracker>.
+This is kinda something unsupported that I whipped up for myself, that I
+thought others might have an interest in. You can email me about bugs or use
+the Github interface for reporting, but don't I<expect> me to fix all your
+problems with this software.
 
 =cut
 =head1 SUPPORT
@@ -222,9 +243,6 @@ You can also look for information at:
 L<http://www.github.com/bsandrow/WWW-Trimet-TransitTracker>
 
 =back
-=cut
-=head1 ACKNOWLEDGEMENTS
-
 =cut
 =head1 COPYRIGHT & LICENSE
 
