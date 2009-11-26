@@ -12,7 +12,7 @@ $|++;
 =head1 NAME
 
 WWW::Trimet::TransitTracker - Webscraper for thr Transit Tracker page.
-
+=cut
 =head1 VERSION
 
 Version 0.01
@@ -23,19 +23,52 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+A light-weight way to grab the next arrival times from TriMet.org's
+TransitTracker page.
 
-Perhaps a little code snippet.
+Example usage:
+
+    #!/usr/bin/perl
+
+    use strict;
+    use warnings;
 
     use WWW::Trimet::TransitTracker;
 
-    my $foo = WWW::Trimet::TransitTracker->new();
-    ...
+    my $tt = WWW::Trimet::TransitTracker->new;
+
+    $tt->stop_id($ARGV[0]);
+    $tt->parse();
+
+    map { + print "$_->[0] @ $_->[1]\n"; } @{$tt->arrivals()};
+
 =cut
 =head1 PUBLIC FUNCTIONS
 =cut
 
 =head2 new
+
+Creates a new TransitTracker.
+
+Optional Arguments:
+
+=over 4
+
+=item stopid
+
+The Stop ID # that you want arrival times for.
+
+=item route
+
+The Route Number of the particular Route that you're interested in. (i.e. If
+you only care about arrivals of Bus #4 at this particular stop).
+
+=item ua
+
+Provide your own LWP::UserAgent instance to use for all communication with
+trimet.org (e.g. define your own UserAgent string for your app or something).
+
+=back
 
 =cut
 sub new {
